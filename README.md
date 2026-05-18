@@ -1,6 +1,6 @@
 # CtrlC-CtrlV_UserStories_Gesti-_de_Receptes
 
-prompt 1 + errors pamtalla en blanc: Estructura inicial de l’app
+## Prompt 1 + errors pamtalla en blanc: Estructura inicial de l’app
 Vull crear una aplicació React anomenada "Gestió de Receptes". 
 Fes una primera versió funcional en un sol component App.jsx, amb una interfície principal clara.
 
@@ -13,7 +13,7 @@ Requisits inicials:
 - No facis servir backend ni base de dades encara.
 - Mantén el codi fàcil d'entendre per a estudiants.
 
-promt 2: Afegir receptes
+## Promt 2: Afegir receptes
 Ara afegeix la funcionalitat US-01: afegir noves receptes.
 
 Requisits:
@@ -28,7 +28,7 @@ Requisits:
 - Després d'afegir una recepta, neteja els camps del formulari.
 - Mantén tot en React amb useState.
 
-- prompt 3: Guardar dades amb localStorage
+## Prompt 3: Guardar dades amb localStorage
 - Ara afegeix persistència de dades amb localStorage.
 
 Requisits:
@@ -38,7 +38,7 @@ Requisits:
 - Utilitza useEffect per carregar i guardar les dades.
 - No utilitzis backend.
 
-- prompt 4: Cercar receptes per nom o ingredient
+## Prompt 4: Cercar receptes per nom o ingredient
 - Ara implementa la user story US-02: cercar receptes per nom o ingredient.
 
 Requisits:
@@ -50,7 +50,7 @@ Requisits:
 - Afegeix un botó "Netejar cerca" per tornar a veure totes les receptes.
 - Mostra un petit missatge de confirmació quan es netegi la cerca.
 
-- prompt 5: Editar receptes
+## Prompt 5: Editar receptes
 - Ara implementa la user story US-03: editar receptes existents.
 
 Requisits:
@@ -63,7 +63,7 @@ Requisits:
 - Afegeix un botó "Cancel·lar edició" per sortir del mode edició sense modificar res.
 - Les dades modificades també s'han de guardar a localStorage.
 
-- prompt 6: Eliminar receptes
+## Prompt 6: Eliminar receptes
 - Ara implementa la user story US-04: eliminar receptes.
 
 Requisits:
@@ -74,7 +74,7 @@ Requisits:
 - Les dades actualitzades s'han de guardar a localStorage.
 - Si l'usuari cancel·la, no facis cap canvi.
 
-- prompt 7: Funció de desfer acció
+## Prompt 7: Funció de desfer acció
 - Ara afegeix una funcionalitat de desfer l'última acció.
 
 Requisits:
@@ -89,7 +89,7 @@ Requisits:
 - Mostra el missatge "Acció desfeta correctament".
 - Assegura't que localStorage també quedi actualitzat després de desfer.
 
-- promt 8: Millorar interfície i usabilitat
+## Promt 8: Millorar interfície i usabilitat
 - Millora la interfície visual de l'aplicació sense canviar les funcionalitats.
 
 Objectius:
@@ -106,7 +106,7 @@ Objectius:
 - Mantén el CSS en App.css o index.css.
 - No afegeixis llibreries externes.
 
-- prompt 9: Revisió final de requisits
+## Prompt 9: Revisió final de requisits
 - Revisa tota l'aplicació React i comprova que compleixi aquests requisits funcionals:
 
 US-01:
@@ -138,3 +138,14 @@ Criteris generals:
 - El codi ha de ser clar i sense funcionalitats innecessàries.
 
 Si falta alguna cosa, modifica el codi per corregir-ho.
+
+## Reflexió sobre l'ús de Copilot:
+L’ús de GitHub Copilot ha estat molt útil per accelerar el desenvolupament de l’aplicació. L’eina ha ajudat especialment en la creació de l’estructura inicial del projecte React, la gestió de l’estat amb useState, la persistència amb localStorage i la implementació de funcionalitats repetitives com afegir, editar o eliminar receptes.
+
+Un dels avantatges principals ha estat poder treballar de manera iterativa. En lloc de demanar tota l’aplicació en un únic prompt, s’han anat introduint instruccions concretes per a cada user story. Això ha facilitat detectar errors, revisar el comportament de cada funcionalitat i mantenir un desenvolupament més ordenat.
+
+Tot i això, Copilot no ha substituït la feina del programador. Ha estat necessari revisar manualment el codi generat per assegurar que complia tots els criteris d’acceptació. Per exemple, algunes funcionalitats com els missatges de confirmació, l’opció de desfer accions o la persistència de les dades havien de ser indicades de manera molt explícita perquè quedessin ben implementades.
+
+També ha estat important comprovar que la interfície fos clara i que totes les accions principals estiguessin disponibles des de la pantalla principal. Copilot pot generar codi funcional, però cal revisar si realment compleix les necessitats de l’usuari i si l’experiència d’ús és coherent.
+
+En conclusió, GitHub Copilot ha estat una eina molt útil per desenvolupar més ràpidament, però el resultat final depèn de la qualitat dels prompts i de la revisió crítica del codi generat. L’eina ajuda molt, però no elimina la necessitat d’entendre què fa el programa ni de comprovar que els requisits s’han implementat correctament.
