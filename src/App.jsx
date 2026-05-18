@@ -1,44 +1,73 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+
+// Receptes d'exemple per mostrar si no hi ha dades guardades
+const RECEPTES_EXEMPLE = [
+  {
+    nom: 'Truita de patates',
+    ingredients: ['3 ous', '2 patates mitjanes', '1 ceba petita', 'sal', 'oli d\'oliva'],
+    passos: [
+      'Pelar i tallar les patates i la ceba a daus petits.',
+      'Fregir-les a la paella amb oli fins que estiguin tendres.',
+      'Batre els ous amb una mica de sal i afegir les patates.',
+      'Cuinar la truita per ambdós costats fins que quedi daurada.'
+    ]
+  },
+  {
+    nom: 'Amanida mediterrània',
+    ingredients: ['Enciam', 'Tomàquet', 'Cogombre', 'Olives negres', 'Formatge feta', 'Oli d\'oliva', 'Vinagre'],
+    passos: [
+      'Netejar i tallar les verdures en trossos petits.',
+      'Barrejar-hi les olives i el formatge feta.',
+      'Amanir amb oli d\'oliva, vinagre i una mica de sal.',
+      'Servir fresca segons preferència.'
+    ]
+  },
+  {
+    nom: 'Brou de verdures',
+    ingredients: ['Aigua', 'Pastanaga', 'Api', 'Ceba', 'Porro', 'Sal', 'Pebre'],
+    passos: [
+      'Posar totes les verdures netes i tallades en una cassola gran.',
+      'Cobrir amb aigua i portar a ebullició.',
+      'Deixar coure a foc lent durant 40 minuts.',
+      'Colar el brou i servir calent.'
+    ]
+  }
+]
 
 export default function App() {
-  const [receptes, setReceptes] = useState([
-    {
-      nom: 'Truita de patates',
-      ingredients: ['3 ous', '2 patates mitjanes', '1 ceba petita', 'sal', 'oli d’oliva'],
-      passos: [
-        'Pelar i tallar les patates i la ceba a daus petits.',
-        'Fregir-les a la paella amb oli fins que estiguin tendres.',
-        'Batre els ous amb una mica de sal i afegir les patates.',
-        'Cuinar la truita per ambdós costats fins que quedi daurada.'
-      ]
-    },
-    {
-      nom: 'Amanida mediterrània',
-      ingredients: ['Enciam', 'Tomàquet', 'Cogombre', 'Olives negres', 'Formatge feta', 'Oli d’oliva', 'Vinagre'],
-      passos: [
-        'Netejar i tallar les verdures en trossos petits.',
-        'Barrejar-hi les olives i el formatge feta.',
-        'Amanir amb oli d’oliva, vinagre i una mica de sal.',
-        'Servir fresca segons preferència.'
-      ]
-    },
-    {
-      nom: 'Brou de verdures',
-      ingredients: ['Aigua', 'Pastanaga', 'Api', 'Ceba', 'Porro', 'Sal', 'Pebre'],
-      passos: [
-        'Posar totes les verdures netes i tallades en una cassola gran.',
-        'Cobrir amb aigua i portar a ebullició.',
-        'Deixar coure a foc lent durant 40 minuts.',
-        'Colar el brou i servir calent.'
-      ]
-    }
-  ])
+  const [receptes, setReceptes] = useState([])
 
   // Estados per al formulari
   const [nom, setNom] = useState('')
   const [ingredients, setIngredients] = useState('')
   const [passos, setPassos] = useState('')
   const [missatge, setMissatge] = useState('')
+
+  // useEffect per carregar les receptes de localStorage quan es munti el component
+  useEffect(() => {
+    const receptesGuardades = localStorage.getItem('receptes')
+    
+    if (receptesGuardades) {
+      // Si hi ha dades guardades, carrega-les
+      try {
+        setReceptes(JSON.parse(receptesGuardades))
+      } catch (error) {
+        console.error('Error carregant receptes de localStorage:', error)
+        // Si hi ha un error, carrega les receptes d'exemple
+        setReceptes(RECEPTES_EXEMPLE)
+      }
+    } else {
+      // Si no hi ha dades guardades, mostra les receptes d'exemple
+      setReceptes(RECEPTES_EXEMPLE)
+    }
+  }, []) // Només s'executa una vegada quan es munti
+
+  // useEffect per guardar les receptes a localStorage cada vegada que canvien
+  useEffect(() => {
+    if (receptes.length > 0) {
+      localStorage.setItem('receptes', JSON.stringify(receptes))
+    }
+  }, [receptes]) // S'executa cada vegada que receptes canvia
 
   // Funció per afegir una nova recepta
   const afegirRecepta = (e) => {
@@ -91,7 +120,7 @@ export default function App() {
     <div className="app-container">
       <header>
         <h1>Gestió de Receptes</h1>
-        <p className="subtitol">Una petita llista de receptes d’exemple per començar.</p>
+        <p className="subtitol">Una petita llista de receptes d'exemple per començar.</p>
       </header>
 
       {/* Formulari per afegir nova recepta */}
