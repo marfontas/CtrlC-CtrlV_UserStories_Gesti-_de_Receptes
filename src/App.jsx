@@ -51,6 +51,7 @@ const inicialitzarReceptes = (receptesData) => receptesData.map((recepta) => ({
 
 export default function App() {
   const [receptes, setReceptes] = useState([])
+  const [anteriorReceptes, setAnteriorReceptes] = useState(null)
 
   // Estados per al formulari
   const [nom, setNom] = useState('')
@@ -85,10 +86,27 @@ export default function App() {
 
   // useEffect per guardar les receptes a localStorage cada vegada que canvien
   useEffect(() => {
-    if (receptes.length > 0) {
-      localStorage.setItem('receptes', JSON.stringify(receptes))
-    }
+    localStorage.setItem('receptes', JSON.stringify(receptes))
   }, [receptes]) // S'executa cada vegada que receptes canvia
+
+  const guardarEstatAnterior = () => {
+    setAnteriorReceptes(receptes)
+  }
+
+  const desferUltimaAccio = () => {
+    if (!anteriorReceptes) {
+      return
+    }
+
+    setReceptes(anteriorReceptes)
+    setAnteriorReceptes(null)
+    setNom('')
+    setIngredients('')
+    setPassos('')
+    setEditantId(null)
+    setIsEditMode(false)
+    setMissatge('✅ Acció desfeta correctament')
+  }
 
   // Funció per filtrar receptes segons el terme de cerca
   const filtrarReceptes = () => {
