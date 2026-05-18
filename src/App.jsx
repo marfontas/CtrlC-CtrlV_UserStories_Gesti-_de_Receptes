@@ -146,6 +146,7 @@ export default function App() {
       passos: passos.trim().split('\n').filter(pas => pas.trim() !== '')
     }
 
+    guardarEstatAnterior()
     setReceptes([...receptes, novaRecepta])
     setMissatge('✅ Recepta afegida correctament!')
     netejarFormulari()
@@ -169,6 +170,7 @@ export default function App() {
       return
     }
 
+    guardarEstatAnterior()
     setReceptes(receptes.filter((item) => item.id !== id))
     setMissatge('✅ Recepta eliminada correctament')
 
@@ -191,6 +193,7 @@ export default function App() {
       passos: passos.trim().split('\n').filter(pas => pas.trim() !== '')
     }
 
+    guardarEstatAnterior()
     setReceptes(receptes.map((item) => item.id === editantId ? receptaActualitzada : item))
     setMissatge('✅ Recepta actualitzada correctament!')
     netejarFormulari()
@@ -241,6 +244,8 @@ export default function App() {
     }
   }
 
+  const missatgeClass = missatge.startsWith('❌') ? 'missatge missatge-error' : 'missatge missatge-success'
+
   return (
     <div className="app-container">
       <header>
@@ -248,20 +253,20 @@ export default function App() {
         <p className="subtitol">Una petita llista de receptes d'exemple per començar.</p>
       </header>
 
-      {/* Formulari per afegir nova recepta */}
-      <section className="formulari-section">
-        <h2>{isEditMode ? '✏️ Editar recepta' : '➕ Afegir nova recepta'}</h2>
-        <form onSubmit={handleSubmit} className="formulari-recepta">
-          <div className="form-group">
-            <label htmlFor="nom">Nom de la recepta:</label>
-            <input
-              id="nom"
-              type="text"
-              value={nom}
-              onChange={(e) => setNom(e.target.value)}
-              placeholder="Ex: Pasta a la carbonara"
-            />
-          </div>
+      <div className="panell-superior">
+        <section className="formulari-section">
+          <h2>{isEditMode ? '✏️ Editar recepta' : '➕ Afegir nova recepta'}</h2>
+          <form onSubmit={handleSubmit} className="formulari-recepta">
+            <div className="form-group">
+              <label htmlFor="nom">Nom de la recepta:</label>
+              <input
+                id="nom"
+                type="text"
+                value={nom}
+                onChange={(e) => setNom(e.target.value)}
+                placeholder="Ex: Pasta a la carbonara"
+              />
+            </div>
 
           <div className="form-group">
             <label htmlFor="ingredients">Ingredients (un per línia):</label>
@@ -298,7 +303,7 @@ export default function App() {
         </form>
 
         {/* Missatge de confirmació */}
-        {missatge && <div className="missatge">{missatge}</div>}
+        {missatge && <div className={missatgeClass}>{missatge}</div>}
       </section>
 
       {/* Secció de cerca */}
@@ -320,8 +325,19 @@ export default function App() {
             Netejar cerca
           </button>
         </div>
-        {missatgeCerca && <div className="missatge">{missatgeCerca}</div>}
+        <div className="cerca-accions">
+          <button
+            type="button"
+            className="btn-desfer"
+            onClick={desferUltimaAccio}
+            disabled={!anteriorReceptes}
+          >
+            Desfer última acció
+          </button>
+        </div>
+        {missatgeCerca && <div className="missatge missatge-info">{missatgeCerca}</div>}
       </section>
+      </div>
 
       {/* Llista de receptes */}
       <main>
