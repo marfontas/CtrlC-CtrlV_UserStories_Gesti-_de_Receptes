@@ -1,0 +1,72 @@
+:root {
+  color-scheme: light;
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  background: #f6f6f4;
+  color: #222;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body, html, #root {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  background: #f6f6f4;
+}
+
+.app-container {
+  max-width: 980px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+h1 {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.subtitol {
+  margin-top: 0.75rem;
+  color: #555;
+}
+
+main {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.recepta-card {
+  background: #ffffff;
+  border: 1px solid #ddddda;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.recepta-card h2 {
+  margin: 0 0 0.75rem;
+  color: #1f3d5a;
+}
+
+section h3 {
+  margin: 1rem 0 0.5rem;
+  color: #344055;
+}
+
+ul, ol {
+  margin: 0;
+  padding-left: 1.3rem;
+}
+
+li {
+  margin-bottom: 0.4rem;
+}
