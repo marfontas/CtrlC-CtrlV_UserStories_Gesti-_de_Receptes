@@ -70,3 +70,114 @@ ul, ol {
 li {
   margin-bottom: 0.4rem;
 }
+
+/* Estils del formulari */
+.formulari-section {
+  background: #ffffff;
+  border: 1px solid #ddddda;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 2rem;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.04);
+}
+
+.formulari-section h2 {
+  margin-top: 0;
+  color: #1f3d5a;
+}
+
+.formulari-recepta {
+  display: grid;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-group label {
+  font-weight: 500;
+  color: #344055;
+}
+
+.form-group input,
+.form-group textarea {
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  color: #222;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: #1f3d5a;
+  box-shadow: 0 0 0 3px rgba(31, 61, 90, 0.1);
+}
+
+.form-group textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+.btn-enviar {
+  padding: 0.75rem 1.5rem;
+  background: #1f3d5a;
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn-enviar:hover {
+  background: #162a42;
+}
+
+.btn-enviar:active {
+  transform: scale(0.98);
+}
+
+.missatge {
+  margin-top: 1rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #e8f5e9;
+  border-left: 4px solid #4caf50;
+  color: #2e7d32;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sense-receptes {
+  text-align: center;
+  color: #999;
+  padding: 2rem;
+  font-style: italic;
+}
+
+.recepta-card h3 {
+  margin: 0 0 0.75rem;
+  color: #1f3d5a;
+}
+
+.recepta-card h4 {
+  margin: 1rem 0 0.5rem;
+  color: #344055;
+}
