@@ -151,3 +151,8 @@ Tot i això, Copilot no ha substituït la feina del programador. Ha estat necess
 També ha estat important comprovar que la interfície fos clara i que totes les accions principals estiguessin disponibles des de la pantalla principal. Copilot pot generar codi funcional, però cal revisar si realment compleix les necessitats de l’usuari i si l’experiència d’ús és coherent.
 
 En conclusió, GitHub Copilot ha estat una eina molt útil per desenvolupar més ràpidament, però el resultat final depèn de la qualitat dels prompts i de la revisió crítica del codi generat. L’eina ajuda molt, però no elimina la necessitat d’entendre què fa el programa ni de comprovar que els requisits s’han implementat correctament.
+
+## Captures de pantalla
+![](./screenshots/Capturadepantalla2026-05-18172559.png)
+
+![](./screenshots/Capturadepantalla2026-05-18172655.png)
