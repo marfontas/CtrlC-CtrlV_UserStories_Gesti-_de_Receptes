@@ -43,6 +43,10 @@ export default function App() {
   const [passos, setPassos] = useState('')
   const [missatge, setMissatge] = useState('')
 
+  // Estados per a la cerca
+  const [termCerca, setTermCerca] = useState('')
+  const [missatgeCerca, setMissatgeCerca] = useState('')
+
   // useEffect per carregar les receptes de localStorage quan es munti el component
   useEffect(() => {
     const receptesGuardades = localStorage.getItem('receptes')
@@ -68,6 +72,29 @@ export default function App() {
       localStorage.setItem('receptes', JSON.stringify(receptes))
     }
   }, [receptes]) // S'executa cada vegada que receptes canvia
+
+  // Funció per filtrar receptes segons el terme de cerca
+  const filtrarReceptes = () => {
+    if (termCerca.trim() === '') {
+      return receptes
+    }
+
+    const termLower = termCerca.toLowerCase()
+    return receptes.filter(recepta => {
+      const nomCoincideix = recepta.nom.toLowerCase().includes(termLower)
+      const ingredientCoincideix = recepta.ingredients.some(ingredient => 
+        ingredient.toLowerCase().includes(termLower)
+      )
+      return nomCoincideix || ingredientCoincideix
+    })
+  }
+
+  // Funció per netejar la cerca
+  const netejarCerca = () => {
+    setTermCerca('')
+    setMissatgeCerca('🧹 Cerca neta! Mostrant totes les receptes.')
+    setTimeout(() => setMissatgeCerca(''), 3000)
+  }
 
   // Funció per afegir una nova recepta
   const afegirRecepta = (e) => {
@@ -167,13 +194,43 @@ export default function App() {
         {missatge && <div className="missatge">{missatge}</div>}
       </section>
 
+      {/* Secció de cerca */}
+      <section className="cerca-section">
+        <h2>🔍 Cercar receptes</h2>
+        <div className="cerca-container">
+          <input
+            type="text"
+            value={termCerca}
+            onChange={(e) => setTermCerca(e.target.value)}
+            placeholder="Cerca per nom o ingredient..."
+            className="input-cerca"
+          />
+          <button 
+            onClick={netejarCerca}
+            className="btn-netejar"
+            disabled={termCerca === ''}
+          >
+            Netejar cerca
+          </button>
+        </div>
+        {missatgeCerca && <div className="missatge">{missatgeCerca}</div>}
+      </section>
+
       {/* Llista de receptes */}
       <main>
-        <h2>Receptes ({receptes.length})</h2>
-        {receptes.length === 0 ? (
-          <p className="sense-receptes">No hi ha receptes. Afegeix-ne una!</p>
-        ) : (
-          receptes.map((recepta, index) => (
+        {(() => {
+          const receptesFiltrades = filtrarReceptes()
+          return (
+            <>
+              <h2>Receptes ({receptesFiltrades.length})</h2>
+              {receptesFiltrades.length === 0 ? (
+                termCerca === '' ? (
+                  <p className="sense-receptes">No hi ha receptes. Afegeix-ne una!</p>
+                ) : (
+                  <p className="sense-receptes">❌ No s'han trobat receptes que coincideixin amb "{termCerca}"</p>
+                )
+              ) : (
+                receptesFiltrades.map((recepta, index) => (
             <article className="recepta-card" key={index}>
               <h3>{recepta.nom}</h3>
               <section>
@@ -192,9 +249,12 @@ export default function App() {
                   ))}
                 </ol>
               </section>
-            </article>
-          ))
-        )}
+                </article>
+              ))
+              )}
+            </>
+          )
+        })()}
       </main>
     </div>
   )
