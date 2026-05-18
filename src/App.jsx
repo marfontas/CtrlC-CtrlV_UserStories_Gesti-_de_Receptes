@@ -145,6 +145,20 @@ export default function App() {
     setMissatge('')
   }
 
+  const eliminarRecepta = (id) => {
+    const confirmar = window.confirm('Segur que vols eliminar aquesta recepta?')
+    if (!confirmar) {
+      return
+    }
+
+    setReceptes(receptes.filter((item) => item.id !== id))
+    setMissatge('✅ Recepta eliminada correctament')
+
+    if (isEditMode && editantId === id) {
+      cancelarEdicio()
+    }
+  }
+
   const guardarCanvis = (e) => {
     e.preventDefault()
 
@@ -309,9 +323,14 @@ export default function App() {
             <article className="recepta-card" key={recepta.id}>
               <div className="recepta-card-header">
                 <h3>{recepta.nom}</h3>
-                <button type="button" className="btn-editar" onClick={() => editarRecepta(recepta.id)}>
-                  Editar
-                </button>
+                <div className="recepta-card-actions">
+                  <button type="button" className="btn-editar" onClick={() => editarRecepta(recepta.id)}>
+                    Editar
+                  </button>
+                  <button type="button" className="btn-eliminar" onClick={() => eliminarRecepta(recepta.id)}>
+                    Eliminar
+                  </button>
+                </div>
               </div>
               <section>
                 <h4>Ingredients</h4>
