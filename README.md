@@ -1,5 +1,7 @@
 # CtrlC-CtrlV_UserStories_Gesti-_de_Receptes
 
+url: https://github.com/marfontas/CtrlC-CtrlV_UserStories_Gesti-_de_Receptes.git 
+
 ## Prompt 1 + errors pamtalla en blanc: Estructura inicial de l’app
 Vull crear una aplicació React anomenada "Gestió de Receptes". 
 Fes una primera versió funcional en un sol component App.jsx, amb una interfície principal clara.
