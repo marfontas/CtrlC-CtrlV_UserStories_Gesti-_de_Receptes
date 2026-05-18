@@ -326,14 +326,15 @@ export default function App() {
           </button>
         </div>
         <div className="cerca-accions">
-          <button
-            type="button"
-            className="btn-desfer"
-            onClick={desferUltimaAccio}
-            disabled={!anteriorReceptes}
-          >
-            Desfer última acció
-          </button>
+          {anteriorReceptes && (
+            <button
+              type="button"
+              className="btn-desfer"
+              onClick={desferUltimaAccio}
+            >
+              Desfer última acció
+            </button>
+          )}
         </div>
         {missatgeCerca && <div className="missatge missatge-info">{missatgeCerca}</div>}
       </section>
@@ -350,7 +351,7 @@ export default function App() {
                 termCerca === '' ? (
                   <p className="sense-receptes">No hi ha receptes. Afegeix-ne una!</p>
                 ) : (
-                  <p className="sense-receptes">❌ No s'han trobat receptes que coincideixin amb "{termCerca}"</p>
+                  <p className="sense-receptes">❌ No s'han trobat receptes.</p>
                 )
               ) : (
                 receptesFiltrades.map((recepta) => (
