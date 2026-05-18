@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 // Receptes d'exemple per mostrar si no hi ha dades guardades
 const RECEPTES_EXEMPLE = [
   {
+    id: 'rec-1',
     nom: 'Truita de patates',
     ingredients: ['3 ous', '2 patates mitjanes', '1 ceba petita', 'sal', 'oli d\'oliva'],
     passos: [
@@ -13,6 +14,7 @@ const RECEPTES_EXEMPLE = [
     ]
   },
   {
+    id: 'rec-2',
     nom: 'Amanida mediterrània',
     ingredients: ['Enciam', 'Tomàquet', 'Cogombre', 'Olives negres', 'Formatge feta', 'Oli d\'oliva', 'Vinagre'],
     passos: [
@@ -23,6 +25,7 @@ const RECEPTES_EXEMPLE = [
     ]
   },
   {
+    id: 'rec-3',
     nom: 'Brou de verdures',
     ingredients: ['Aigua', 'Pastanaga', 'Api', 'Ceba', 'Porro', 'Sal', 'Pebre'],
     passos: [
@@ -34,6 +37,18 @@ const RECEPTES_EXEMPLE = [
   }
 ]
 
+const generarIdRecepta = () => {
+  if (typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function') {
+    return crypto.randomUUID()
+  }
+  return Date.now().toString() + Math.random().toString(16).slice(2)
+}
+
+const inicialitzarReceptes = (receptesData) => receptesData.map((recepta) => ({
+  ...recepta,
+  id: recepta.id || generarIdRecepta()
+}))
+
 export default function App() {
   const [receptes, setReceptes] = useState([])
 
@@ -42,6 +57,8 @@ export default function App() {
   const [ingredients, setIngredients] = useState('')
   const [passos, setPassos] = useState('')
   const [missatge, setMissatge] = useState('')
+  const [editantId, setEditantId] = useState(null)
+  const [isEditMode, setIsEditMode] = useState(false)
 
   // Estados per a la cerca
   const [termCerca, setTermCerca] = useState('')
@@ -54,15 +71,15 @@ export default function App() {
     if (receptesGuardades) {
       // Si hi ha dades guardades, carrega-les
       try {
-        setReceptes(JSON.parse(receptesGuardades))
+        setReceptes(inicialitzarReceptes(JSON.parse(receptesGuardades)))
       } catch (error) {
         console.error('Error carregant receptes de localStorage:', error)
         // Si hi ha un error, carrega les receptes d'exemple
-        setReceptes(RECEPTES_EXEMPLE)
+        setReceptes(inicialitzarReceptes(RECEPTES_EXEMPLE))
       }
     } else {
       // Si no hi ha dades guardades, mostra les receptes d'exemple
-      setReceptes(RECEPTES_EXEMPLE)
+      setReceptes(inicialitzarReceptes(RECEPTES_EXEMPLE))
     }
   }, []) // Només s'executa una vegada quan es munti
 
@@ -100,47 +117,96 @@ export default function App() {
   const afegirRecepta = (e) => {
     e.preventDefault()
 
-    // Validar que el nom no estigui buit
-    if (nom.trim() === '') {
-      setMissatge('❌ El nom de la recepta és obligatori!')
-      setTimeout(() => setMissatge(''), 3000)
+    if (!validarFormulari()) {
       return
     }
 
-    // Validar que hi hagi almenys un ingredient
-    if (ingredients.trim() === '') {
-      setMissatge('❌ Afegeix almenys un ingredient!')
-      setTimeout(() => setMissatge(''), 3000)
-      return
-    }
-
-    // Validar que hi hagi almenys un pas
-    if (passos.trim() === '') {
-      setMissatge('❌ Afegeix almenys un pas!')
-      setTimeout(() => setMissatge(''), 3000)
-      return
-    }
-
-    // Crear la nova recepta (dividint ingredients i passos per salts de línia)
     const novaRecepta = {
+      id: generarIdRecepta(),
       nom: nom.trim(),
       ingredients: ingredients.trim().split('\n').filter(ing => ing.trim() !== ''),
       passos: passos.trim().split('\n').filter(pas => pas.trim() !== '')
     }
 
-    // Afegir la recepta a la llista
     setReceptes([...receptes, novaRecepta])
-
-    // Mostrar missatge de confirmació
     setMissatge('✅ Recepta afegida correctament!')
+    netejarFormulari()
+  }
 
-    // Netejar els camps del formulari
+  const editarRecepta = (id) => {
+    const recepta = receptes.find((item) => item.id === id)
+    if (!recepta) return
+
+    setNom(recepta.nom)
+    setIngredients(recepta.ingredients.join('\n'))
+    setPassos(recepta.passos.join('\n'))
+    setEditantId(id)
+    setIsEditMode(true)
+    setMissatge('')
+  }
+
+  const guardarCanvis = (e) => {
+    e.preventDefault()
+
+    if (!validarFormulari()) {
+      return
+    }
+
+    const receptaActualitzada = {
+      id: editantId,
+      nom: nom.trim(),
+      ingredients: ingredients.trim().split('\n').filter(ing => ing.trim() !== ''),
+      passos: passos.trim().split('\n').filter(pas => pas.trim() !== '')
+    }
+
+    setReceptes(receptes.map((item) => item.id === editantId ? receptaActualitzada : item))
+    setMissatge('✅ Recepta actualitzada correctament!')
+    netejarFormulari()
+    setEditantId(null)
+    setIsEditMode(false)
+  }
+
+  const cancelarEdicio = () => {
+    netejarFormulari()
+    setEditantId(null)
+    setIsEditMode(false)
+    setMissatge('')
+  }
+
+  const validarFormulari = () => {
+    if (nom.trim() === '') {
+      setMissatge('❌ El nom de la recepta és obligatori!')
+      setTimeout(() => setMissatge(''), 3000)
+      return false
+    }
+
+    if (ingredients.trim() === '') {
+      setMissatge('❌ Afegeix almenys un ingredient!')
+      setTimeout(() => setMissatge(''), 3000)
+      return false
+    }
+
+    if (passos.trim() === '') {
+      setMissatge('❌ Afegeix almenys un pas!')
+      setTimeout(() => setMissatge(''), 3000)
+      return false
+    }
+
+    return true
+  }
+
+  const netejarFormulari = () => {
     setNom('')
     setIngredients('')
     setPassos('')
+  }
 
-    // Esborrar el missatge després de 3 segons
-    setTimeout(() => setMissatge(''), 3000)
+  const handleSubmit = (e) => {
+    if (isEditMode) {
+      guardarCanvis(e)
+    } else {
+      afegirRecepta(e)
+    }
   }
 
   return (
@@ -152,8 +218,8 @@ export default function App() {
 
       {/* Formulari per afegir nova recepta */}
       <section className="formulari-section">
-        <h2>➕ Afegir nova recepta</h2>
-        <form onSubmit={afegirRecepta} className="formulari-recepta">
+        <h2>{isEditMode ? '✏️ Editar recepta' : '➕ Afegir nova recepta'}</h2>
+        <form onSubmit={handleSubmit} className="formulari-recepta">
           <div className="form-group">
             <label htmlFor="nom">Nom de la recepta:</label>
             <input
@@ -187,7 +253,16 @@ export default function App() {
             />
           </div>
 
-          <button type="submit" className="btn-enviar">Afegir recepta</button>
+          <div className="formulari-accions">
+            <button type="submit" className="btn-enviar">
+              {isEditMode ? 'Guardar canvis' : 'Afegir recepta'}
+            </button>
+            {isEditMode && (
+              <button type="button" className="btn-cancelar" onClick={cancelarEdicio}>
+                Cancel·lar edició
+              </button>
+            )}
+          </div>
         </form>
 
         {/* Missatge de confirmació */}
@@ -230,9 +305,14 @@ export default function App() {
                   <p className="sense-receptes">❌ No s'han trobat receptes que coincideixin amb "{termCerca}"</p>
                 )
               ) : (
-                receptesFiltrades.map((recepta, index) => (
-            <article className="recepta-card" key={index}>
-              <h3>{recepta.nom}</h3>
+                receptesFiltrades.map((recepta) => (
+            <article className="recepta-card" key={recepta.id}>
+              <div className="recepta-card-header">
+                <h3>{recepta.nom}</h3>
+                <button type="button" className="btn-editar" onClick={() => editarRecepta(recepta.id)}>
+                  Editar
+                </button>
+              </div>
               <section>
                 <h4>Ingredients</h4>
                 <ul>
